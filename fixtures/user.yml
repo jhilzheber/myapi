@@ -7,6 +7,7 @@ App\Entity\User:
     createdAt: <dateTimeThisMonth()>
     roles: [ROLE_ADMIN]
     apiKey: admin
+    subscription: '@subscription_1'
 
   user_{2..4}:
     firstname: <firstName()>

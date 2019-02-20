@@ -270,4 +270,12 @@ class User implements UserInterface
     {
         return $this->card;
     }
+
+    public function addSubscription(User $user)
+    {
+        if ($this->subscription->$user) {
+            return;
+        }
+        $this->subscription[] = $user;
+    }
 }

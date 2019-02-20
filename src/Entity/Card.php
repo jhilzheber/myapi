@@ -41,7 +41,9 @@ class Card
      * @SWG\Property(description="The currencyCode of the card.")
      * @ORM\Column(type="string", columnDefinition="ENUM ('EUR','USD','GBP')")
      */
-    private $currencyCode;
+    /**
+     * private $currencyCode;
+     */
 
     /**
      * @SWG\Property(description="The value of the card.")

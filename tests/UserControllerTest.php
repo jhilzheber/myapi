@@ -27,7 +27,7 @@ class UserControllerTest extends WebTestCase
                 'CONTENT_TYPE' => 'application/json' ,
                 'HTTP_X-AUTH-TOKEN' => 'admin'
             ],
-            '{"apiKey": "testPost","email": "testPost@testPost.com","firstname":"testPost", "lastname":"testPost","createdAt":"2017-05-12 00:00:00", "subscription":"Premium", "card":"Gold"}'
+            '{"apiKey": "testPost","email": "testPost@testPost.com","firstname":"testPost", "lastname":"testPost","createdAt":"2017-05-12 00:00:00", "adress":"testPostAddress","country":"France", "subscription":"Premium", "card":"Gold"}'
         );
         $response = $client->getResponse ();
         $content = $response->getContent ();

@@ -26,7 +26,7 @@ App\Entity\User:
     country: <country()>
     apiKey: <uniqid()>
 
-  user_{8..9}:
+  user_{8..10}:
     firstname: <firstName()>
     lastname: <lastName()>
     email: <email()>

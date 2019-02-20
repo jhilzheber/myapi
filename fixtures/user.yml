@@ -8,7 +8,7 @@ App\Entity\User:
     roles: [ROLE_ADMIN]
     apiKey: admin
 
-  user_2:
+  user_{2..4}:
     firstname: <firstName()>
     lastname: <lastName()>
     email: <email()>

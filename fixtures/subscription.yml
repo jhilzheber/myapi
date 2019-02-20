@@ -1,0 +1,16 @@
+# fixtures/subscription.yml
+App\Entity\Subscription:
+  subscription_1:
+    name: Premium
+    slogan: 'Le must pour vous'
+    url: premium.com
+
+  subscription_2:
+    name: Premium plus
+    slogan: 'Le must du must pour vous'
+    url: premiumPlus.com
+
+  subscription_3:
+    name: Premium plus plus
+    slogan: 'Le must du must du must pour vous'
+    url: premiumPlusPlus.com

@@ -9,6 +9,10 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractFOSRestController
 {
@@ -39,13 +43,30 @@ class UserController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/users")
+     * @Rest\Post("/api/user")
      * @ParamConverter("user", converter="fos_rest.request_body")
      * @param User $user
+     * @param ConstraintViolationListInterface $validationErrors
      * @return \FOS\RestBundle\View\View
      */
-    public function postApiUser(User $user)
+    public function postApiUser(User $user, ConstraintViolationListInterface $validationErrors)
     {
+        $errors = array();
+        if ($validationErrors ->count() > 0) {
+            /** @var ConstraintViolation $constraintViolation */
+            foreach ($validationErrors as $constraintViolation ){
+// Returns the violation message. (Ex. This value should not be blank.)
+                $message = $constraintViolation ->getMessage ();
+// Returns the property path from the root element to the violation. (Ex. lastname)
+                $propertyPath = $constraintViolation ->getPropertyPath ();
+                $errors[] = ['message' => $message , 'propertyPath' => $propertyPath ];
+            }
+        }
+        if (!empty($errors)) {
+// Throw a 400 Bad Request with all errors messages (Not readable, you can do better)
+            throw new BadRequestHttpException(\json_encode( $errors));
+        }
+
         $this->em->persist($user);
         $this->em->flush();
         return $this->view($user);
@@ -55,10 +76,11 @@ class UserController extends AbstractFOSRestController
      * @Rest\Patch("/api/user/{email}")
      * @param User $user
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return \FOS\RestBundle\View\View
      */
 
-    public function patchApiUser(User $user, Request $request){
+    public function patchApiUser(User $user, Request $request, ValidatorInterface $validator){
 
         $firstname = $request->get('firstname');
         $lastname = $request->get('lastname');
@@ -80,6 +102,17 @@ class UserController extends AbstractFOSRestController
         }
         if ($apiKey !== null) {
             $user->setApiKey($apiKey);
+        }
+        $validationErrors = $validator->validate($user);
+        if ($validationErrors->count() > 0) {
+            /** @var ConstraintViolation $constraintViolation */
+            foreach ($validationErrors as $constraintViolation) {
+                // Returns the violation message. (Ex. This value should not be blank.)
+                $message = $constraintViolation->getMessage();
+                // Returns the property path from the root element to the violation. (Ex. lastname)
+                $propertyPath = $constraintViolation->getPropertyPath();
+                $errors[] = ['message' => $message, 'propertyPath' => $propertyPath];
+            }
         }
         $this->em->persist($user);
         $this->em->flush();

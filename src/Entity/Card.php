@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Expr\Value;
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CardRepository")
@@ -18,39 +20,35 @@ class Card
     private $id;
 
     /**
+     * @SWG\Property(description="The name of the card.")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @SWG\Property(description="The creditCardType of the card.")
      * @ORM\Column(type="string", length=255)
      */
     private $creditCardType;
 
     /**
-     * @ORM\Column(type="integer")
+     * @SWG\Property(description="The creditCardNumber of the card.")
+     * @ORM\Column(type="bigint")
      */
     private $creditCardNumber;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="ENUM('EUR','USD','GBP')")
+     * @SWG\Property(description="The currencyCode of the card.")
+     * @ORM\Column(type="string", columnDefinition="ENUM ('EUR','USD','GBP')")
      */
     private $currencyCode;
 
     /**
-     * @ORM\Column(type="integer")
+     * @SWG\Property(description="The value of the card.")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $value;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="card")
-     */
-    private $user;
-
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -105,7 +103,7 @@ class Card
         return $this;
     }
 
-    public function getValue($value): ?int
+    public function getValue(?Value $value): ?int
     {
         $this->getValue($value<'100 000');
         $this->getValue($value>'0');
@@ -120,9 +118,13 @@ class Card
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
     public function getUser()
     {
         return $this->user;

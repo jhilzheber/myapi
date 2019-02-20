@@ -57,7 +57,7 @@ class SubscriptionController extends AbstractFOSRestController
      * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
-    public function patchApiUser(Subscription $subscription, Request $request){
+    public function patchApiSubscription(Subscription $subscription, Request $request){
 
         $name = $request->get('name');
         $slogan = $request->get('slogan');

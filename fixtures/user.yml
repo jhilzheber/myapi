@@ -1,0 +1,36 @@
+# fixtures/user.yml
+App\Entity\User:
+  user_1:
+    firstname: admin
+    lastname: admin
+    email: admin@admin.com
+    createdAt: <dateTimeThisMonth()>
+    roles: [ROLE_ADMIN]
+    apiKey: admin
+
+  user_2:
+    firstname: <firstName()>
+    lastname: <lastName()>
+    email: <email()>
+    createdAt: <dateTimeThisMonth()>
+    adress: <address()>
+    country: <country()>
+    apiKey: <uniqid()>
+
+  user_{5..7}:
+    firstname: <firstName()>
+    lastname: <lastName()>
+    email: <email()>
+    createdAt: <dateTimeThisMonth()>
+    adress: <address()>
+    country: <country()>
+    apiKey: <uniqid()>
+
+  user_{8..9}:
+    firstname: <firstName()>
+    lastname: <lastName()>
+    email: <email()>
+    createdAt: <dateTimeThisMonth()>
+    adress: <address()>
+    country: <country()>
+    apiKey: <uniqid()>

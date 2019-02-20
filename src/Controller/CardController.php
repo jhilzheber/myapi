@@ -2,88 +2,97 @@
 
 namespace App\Controller;
 
-use App\Entity\Subscription;
-use App\Repository\SubscriptionRepository;
+use App\Entity\Card;
+use App\Repository\CardRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 
-class SubscriptionController extends AbstractFOSRestController
+class CardController extends AbstractFOSRestController
 {
-    private $subscriptionRepository;
+    private $cardRepository;
     private $em;
 
-    public function __construct(SubscriptionRepository $subscriptionRepository,EntityManagerInterface $entityManager )
+    public function __construct(CardRepository $cardRepository,EntityManagerInterface $entityManager )
     {
-        $this->subscriptionRepository = $subscriptionRepository;
+        $this->cardRepository = $cardRepository;
         $this->em = $entityManager;
     }
 
     /**
-     * @Rest\Get("/api/subscription/{name}")
-     * @param Subscription $subscription
+     * @Rest\Get("/api/card/{name}")
+     * @param Card $card
      * @return \FOS\RestBundle\View\View
      */
-    public function getApiSubscription(Subscription $subscription){
-        return $this->view($subscription);
+    public function getApiCard(Card $card){
+        return $this->view($card);
     }
     /**
-     * @Rest\Get("/api/subscriptions")
-     * @Rest\View(serializerGroups={"subscriptions"})
+     * @Rest\Get("/api/cards")
+     * @Rest\View(serializerGroups={"cards"})
      */
-    public function getApiSubscriptions (){
-        $subscriptions = $this->subscriptionRepository ->findAll();
-        return $this->view($subscriptions);
+    public function getApiCards (){
+        $cards = $this->cardRepository ->findAll();
+        return $this->view($cards);
     }
 
     /**
-     * @Rest\Post("/api/subscription")
-     * @ParamConverter("subscription", converter="fos_rest.request_body")
-     * @param Subscription $subscription
+     * @Rest\Post("/api/card")
+     * @ParamConverter("card", converter="fos_rest.request_body")
+     * @param Card $card
      * @return \FOS\RestBundle\View\View
      */
-    public function postApiSubscription(Subscription $subscription)
+    public function postApiCard(Card $card)
     {
-        $this->em->persist($subscription);
+        $this->em->persist($card);
         $this->em->flush();
-        return $this->view($subscription);
+        return $this->view($card);
     }
 
     /**
-     * @Rest\Patch("/api/subscription/{id}")
-     * @param Subscription $subscription
+     * @Rest\Patch("/api/card/{id}")
+     * @param Card $card
      * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
-    public function patchApiUser(Subscription $subscription, Request $request){
+    public function patchApiCard(Card $card, Request $request){
 
         $name = $request->get('name');
-        $slogan = $request->get('slogan');
-        $url = $request->get('url');
+        $creditCardType = $request->get('creditCardType');
+        $creditCardNumber = $request->get('creditCardNumber');
+        $currencyCode = $request->get('currencyCode');
+        $value = $request->get('value');
+        $user = $request->get( 'user' );
 
         if($name !== null){
-            $subscription->setName($name);
+            $card->setName($name);
         }
-        if($slogan !== null){
-            $subscription->setSlogan($slogan);
+        if($creditCardType !== null){
+            $card->setCreditCardType($creditCardType);
         }
-        if($url !== null){
-            $subscription->setUrl($url);
+        if($creditCardNumber !== null){
+            $card->setCreditCardNumber($creditCardNumber);
         }
-        $this->em->persist($subscription);
+        if($currencyCode !== null){
+            $card->setCurrencyCode($currencyCode);
+        }
+        if($value !== null){
+            $card->setValue($value);
+        }
+        $this->em->persist($card);
         $this->em->flush();
-        return $this->view($subscription);
+        return $this->view($card);
     }
 
     /**
-     * @Rest\Delete("/api/subscription/{name}")
-     * @param Subscription $subscription
+     * @Rest\Delete("/api/card/{name}")
+     * @param Card $card
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function deleteApiSubscription(Subscription $subscription){
-        $this->em->remove($subscription);
+    public function deleteApiSubscription(Card $card){
+        $this->em->remove($card);
         $this->em->flush();
         return $this->json('OK');
     }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -21,26 +22,30 @@ class Subscription
     private $id;
 
     /**
+     * @SWG\Property(description="The name of the subscription.")
      * @Groups("subscriptions")
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
+     * @SWG\Property(description="The slogan of the subscription.")
      * @Groups("subscriptions")
      * @ORM\Column(type="string", length=255)
      */
     private $slogan;
 
     /**
+     * @SWG\Property(description="The url of the subscription.")
      * @Groups("subscriptions")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $url;
 
     /**
+     * @SWG\Property(description="The list of users of the subscription.")
      * @Groups("subscriptions")
-     * @ORM\OneToMany(targetEntity="App\Entity\user", mappedBy="subscription")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="subscription")
      */
     private $users;
 

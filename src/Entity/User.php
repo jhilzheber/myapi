@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\Collection;
@@ -22,28 +23,33 @@ class User implements UserInterface
     * @ORM\Id()
     * @ORM\GeneratedValue()
     * @ORM\Column(type="integer")
+    * @SWG\Property(description="The unique identifier of the user.")
     */
     private $id;
 
     /**
+     * @SWG\Property(description="The firstname of the user.")
      * @Groups("user")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
+     * @SWG\Property(description="The lastname of the user.")
      * @Groups("user")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $lastname;
 
     /**
+     * @SWG\Property(description="The email of the user.")
      * @Groups("user")
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
     /**
+     * @SWG\Property(description="The api_key of the user.")
      * @Groups("user")
      * @ORM\GeneratedValue()
      * @ORM\Column(type="string", length=255, unique=true)
@@ -52,6 +58,7 @@ class User implements UserInterface
     private $apiKey;
 
     /**
+     * @SWG\Property(description="The date of subscription of the user.")
      * @Groups("user")
      * @ORM\Column(type="datetime")
      * @ORM\GeneratedValue()
@@ -65,24 +72,28 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @SWG\Property(description="The address of the user.")
      * @Groups("user")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adress;
 
     /**
+     * @SWG\Property(description="The countryof the user.")
      * @Groups("user")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $country;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\subscription", inversedBy="user")
+     * @SWG\Property(description="The subscriptions of the user.")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Subscription", inversedBy="user")
      */
     private $subscription;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\card", mappedBy="user")
+     * @SWG\Property(description="The cards of the user.")
+     * @ORM\OneToMany(targetEntity="App\Entity\Card", mappedBy="user")
      */
     private $card;
 
@@ -187,9 +198,7 @@ class User implements UserInterface
         return $this->subscription;
     }
 
-    /**
-     * @return Collection|card[]
-     */
+
     public function getCard(): Collection
     {
         return $this->card;
@@ -206,6 +215,7 @@ class User implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+        return $this;
     }
 
     /**
@@ -252,5 +262,12 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+    /**
+     * @return Collection|card[]
+     */
+    public function getCards(): Collection
+    {
+        return $this->card;
     }
 }

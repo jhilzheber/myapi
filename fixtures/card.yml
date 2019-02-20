@@ -1,0 +1,19 @@
+## fixtures/card.yml
+App\Entity\Card:
+  card_1:
+    name: Gold
+    creditCardType: <creditCardType()>
+    creditCardNumber: <creditCardNumber()>
+    currencyCode: EUR
+
+  card_2:
+    name: Green
+    creditCardType: <creditCardType()>
+    creditCardNumber: <creditCardNumber()>
+    currencyCode: USD
+
+  card_3:
+    name: Black
+    creditCardType: <creditCardType()>
+    creditCardNumber: <creditCardNumber()>
+    currencyCode: GBP
